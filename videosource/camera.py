@@ -24,7 +24,7 @@ class CameraSource():
                     self.isOnline = True
                     return
             else:
-                for cameraid_ in range(0, 5000): #if no id is parsed, tries to find a camera
+                for cameraid_ in range(0, 5000): #if no id is assigned, tries to find a camera
                     self.id= cameraid_
                     self.capture = cv2.VideoCapture(self.id)
                     
@@ -47,4 +47,5 @@ class CameraSource():
         if k == ord('q'):
             self.capture.release()
             cv2.destroyAllWindows()
-            
+            return True
+        

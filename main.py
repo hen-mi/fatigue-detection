@@ -1,13 +1,13 @@
 import cv2
 import mediapipe as mp
 import time
-import source
+import videosource
 
 mpFaceMesh      =        mp.solutions.face_mesh
 FaceMesh        =        mpFaceMesh.FaceMesh(min_detection_confidence = 0.7, min_tracking_confidence = 0.7)
 mpDraw          =        mp.solutions.drawing_utils
 drawingSpec     =        mpDraw.DrawingSpec(thickness=1, circle_radius=1)
-camera          =        source.CameraSource()
+camera          =        videosource.CameraSource()
 
 camera.start()
 
@@ -18,7 +18,6 @@ else:
 
     while camera.isOnline:
         frame = camera.frame()
-        
         imgRGB  =  cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = FaceMesh.process(imgRGB)
 
@@ -30,10 +29,9 @@ else:
             print('failed to capture frame on iter ')
 
         cv2.imshow('Camera', frame)
+        if camera.end():
+            break
 
-        camera.end()
-
-    cv2.destroyAllWindows()
 
 
 
