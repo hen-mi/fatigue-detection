@@ -1,19 +1,46 @@
 import cv2
 import mediapipe as mp
+import numpy as np
 
-class FaceMesh:
-    def __init__(self, min_detection_confidence=0.7, min_tracking_confidence=0.7):
+RIGHT_EYE   = [ 33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161 , 246 ]  
+LEFT_EYE    = [ 362, 382, 381, 380, 374, 373, 390, 249, 263, 466, 388, 387, 386, 385, 384, 398]
+
+class faceMesh:
+    def __init__(self, min_detection_confidence=0.5, min_tracking_confidence=0.5):
         self.mpFaceMesh         =   mp.solutions.face_mesh
         self.faceMesh           =   self.mpFaceMesh.FaceMesh(min_detection_confidence=min_detection_confidence,min_tracking_confidence=min_tracking_confidence)
         self.mpDraw             =   mp.solutions.drawing_utils
         self.drawingSpec        =   self.mpDraw.DrawingSpec(thickness=1, circle_radius=1)
     
-    def process_frame(self, frame):
-        
+    def landmarksDetection(self, frame, results, draw=False):
+        height, width, channel = frame.shape
+        # list[(x,y), (x,y)....]
+        mesh_coord = [(int(point.x * width), int(point.y * height)) for point in results.multi_face_landmarks[0].landmark]
+        if draw:
+            for p in mesh_coord:
+                cv2.circle(frame, p, 2, (255, 0, 0), -1)
+        # returning the list of tuples for each landmarks 
+        return mesh_coord     
+    
+    
+    def processFrame(self, frame, flag):
+        '''
+        flag =  0 -> full face mesh
+        flag =  1 -> eyes only mesh
+        '''
         imgRGB      =   cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results     =   self.faceMesh.process(imgRGB)
         
         if results.multi_face_landmarks:
-            for faceLms in results.multi_face_landmarks:
-                self.mpDraw.draw_landmarks(frame, faceLms, self.mpFaceMesh.FACEMESH_CONTOURS, self.drawingSpec, self.drawingSpec)
+            #face
+            if flag == 0:
+                for faceLms in results.multi_face_landmarks:
+                    self.mpDraw.draw_landmarks(frame, faceLms, self.mpFaceMesh.FACEMESH_CONTOURS, self.drawingSpec, self.drawingSpec)
+            
+            #eyes only   
+            elif flag == 1:
+                mesh_coords = self.landmarksDetection(frame, results, False)
+                cv2.polylines(frame, [np.array([mesh_coords[p] for p in LEFT_EYE], dtype=np.int32)], True, (0, 255, 0), 1, cv2.LINE_AA)
+                cv2.polylines(frame, [np.array([mesh_coords[p] for p in RIGHT_EYE], dtype=np.int32)], True, (0, 255, 0), 1, cv2.LINE_AA)
         return frame
+    
