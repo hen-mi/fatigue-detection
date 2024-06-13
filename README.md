@@ -9,5 +9,8 @@ pip install -r requirements.txt
 
 ## Running 
 ```bash
-pip3 main.py
+python3 main.py
 ```
+
+## Closing
+Press Q
