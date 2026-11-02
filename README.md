@@ -27,16 +27,17 @@ The Eye Aspect Ratio is a geometric measurement used to estimate whether an eye 
 
 It uses six points around each eye:
 
-- \(P_1\) and \(P_4\): Horizontal eye boundaries.
-- \(P_2\), \(P_3\), \(P_5\), and \(P_6\): Vertical eye boundaries.
+- $P_1$ and $P_4$: Horizontal eye boundaries.
+- $P_2$, $P_3$, $P_5$, and $P_6$: Vertical eye boundaries.
 
 The EAR is calculated using the following formula:
 
-EAR = \frac{\|P_2-P_6\|+\|P_3-P_5\|}{2\|P_1-P_4\|}
+$$EAR = \frac{\|P_2-P_6\|+\|P_3-P_5\|}{2\|P_1-P_4\|}$$
 
 The average EAR is then calculated from both eyes:
 
-EAR_{avg} = \frac{EAR_{left}+EAR_{right}}{2}
+$$EAR_{\text{avg}} = \frac{EAR_{\text{left}}+EAR_{\text{right}}}{2}$$
+
 
 When the eyes are open, the EAR generally remains relatively stable. When the eyes close, the vertical distances decrease, causing the EAR value to drop.
 
@@ -131,7 +132,4 @@ Dewi, C., Chen, R. C., Yu, H., & Jiang, X. (2022). **Eye Aspect Ratio for Real-T
 
 https://doi.org/10.3390/electronics11193183
 
-## Disclaimer
-
-This project is an academic implementation of a computer vision-based fatigue detection approach. It is intended for educational and experimental purposes and should not be considered a certified driver monitoring or safety system. Detection results may vary depending on lighting conditions, camera quality, positioning, and individual characteristics.
 
