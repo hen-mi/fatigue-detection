@@ -32,15 +32,11 @@ It uses six points around each eye:
 
 The EAR is calculated using the following formula:
 
-\[
 EAR = \frac{\|P_2-P_6\|+\|P_3-P_5\|}{2\|P_1-P_4\|}
-\]
 
 The average EAR is then calculated from both eyes:
 
-\[
 EAR_{avg} = \frac{EAR_{left}+EAR_{right}}{2}
-\]
 
 When the eyes are open, the EAR generally remains relatively stable. When the eyes close, the vertical distances decrease, causing the EAR value to drop.
 
